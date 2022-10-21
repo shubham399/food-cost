@@ -2,11 +2,11 @@ const axios = require('axios');
 
 const getOrders = async () => {
     let orders = [];
-    let totalPages = 99999999;
+    let totalPages = Number.MAX_SAFE_INTEGER;
     const cookie = {
-        "PHPSESSID": "<Get it from Cookie>",
-        "cid": "<Get it from Cookie>",
-        "zat": "<Get it from Cookie>",
+        "PHPSESSID": process.env.PHPSESSID,
+        "cid": process.env.CID,
+        "zat": process.env.ZAT,
     }
     let requestCookie = "";
     for (let i in cookie) {
@@ -15,6 +15,7 @@ const getOrders = async () => {
 
     const headers = {
         "accept": "*/*",
+        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36',
         "cookie": requestCookie
     }
 
