@@ -7,7 +7,7 @@ let lastOrderId = '';
 async function getOrders() {
 
     const cookie = {
-        "_session_tid": "<Get it from Cookie>"
+        "_session_tid": process.env.SESSION_TID
     }
     let requestCookie = "";
     for (let i in cookie) {
@@ -15,7 +15,8 @@ async function getOrders() {
     }
 
     const headers = {
-        "cookie": requestCookie
+        "cookie": requestCookie,
+        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36'
     }
     while (1) {
         const url = `https://www.swiggy.com/dapi/order/all?order_id=${lastOrderId}`;
@@ -36,7 +37,7 @@ async function getOrders() {
 }
 
 async function main() {
-    await getOrders();
+    await getOrders().catch(console.error);
     let totalAmount = orders.reduce((acc, curr) => acc + (curr.order_total_with_tip || curr.order_total), 0);
     console.log(`Total spent on Swiggy : ${totalAmount} for ${orders.length} orders with avg of ${totalAmount / orders.length}`);
 }
